@@ -1,43 +1,39 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import s from './Dialogs.module.css';
+import {Message, MessageProps} from "./Message/Message";
+import {DialogItem, DialogItemProps} from "./DialogItem/DialogsItem";
 
-type DialogItemProps = {
-    name: string,
-    id: number,
+export type DialogsProps = {
+    dialogs: Array<DialogItemProps>
+    messages: Array<MessageProps>
 }
 
-function DialogItem(props: DialogItemProps) {
-        return(
-            <div className={s.dialog + ' ' + s.active}>
-                <NavLink to={"/dialogs/" + props.id}>{props.name}</NavLink>
-            </div>
-        );
-}
+export function Dialogs(props: DialogsProps) {
+    const dialogsElements = props.dialogs.map(el => <DialogItem ava={el.ava} name={el.name} id={el.id}/>);
+    const messagesElements = props.messages.map(el => <Message text={el.text} id={el.id}/>);
 
-type MessageProps = {
-    text: string,
-}
+    let newMessage = React.createRef<HTMLTextAreaElement>();
 
-function Message(props: MessageProps) {
-    return(
-        <div className="message">props.text</div>
-    );
-}
+    const sendMessage = () => {
+        let text = newMessage.current?.value;
+        alert(text);
+    }
 
-export function Dialogs() {
     return (
         <div className={s.dialogs}>
             <div className={s.dialogs_items}>
-                <DialogItem name="Ashton" id={1}/>
-                <DialogItem name="Metthew" id={2}/>
-                <DialogItem name="Daniel" id={3}/>
-                <DialogItem name="Tobi" id={4}/>
+                {dialogsElements}
             </div>
             <div className={s.messages}>
-                <Message text="Hi"/>
-                <Message text="Hello"/>
-                <Message text="Yo"/>
+                {messagesElements}
+            </div>
+            <div>
+                <div>
+                    <textarea ref={newMessage}></textarea>
+                </div>
+                <div>
+                    <button onClick={ sendMessage }>Send</button>
+                </div>
             </div>
         </div>
     );

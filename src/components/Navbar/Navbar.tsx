@@ -1,8 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import s from './Navbar.module.css';
+import {Sidebar, SidebarProps} from "./Sidebar/Sidebar";
 
-export function Navbar() {
+export type NavbarProps = {
+    sidebar: SidebarProps
+}
+
+export function Navbar(props: NavbarProps) {
     return (
         <nav className={s.nav}>
             <div className={s.item}>
@@ -20,6 +25,7 @@ export function Navbar() {
             <div className={s.item}>
                 <NavLink to='/settings' activeClassName={s.active}>Settings</NavLink>
             </div>
+            <Sidebar friends={props.sidebar.friends}/>
         </nav>
     );
 }
