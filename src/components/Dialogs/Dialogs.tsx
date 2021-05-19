@@ -2,10 +2,13 @@ import React from 'react';
 import s from './Dialogs.module.css';
 import {Message, MessageProps} from "./Message/Message";
 import {DialogItem, DialogItemProps} from "./DialogItem/DialogsItem";
+import {ActionTypes, sendMessageAC, updateNewMessageTextAC} from "../../redux/state";
 
 export type DialogsProps = {
     dialogs: Array<DialogItemProps>
     messages: Array<MessageProps>
+    dispatch: (action: ActionTypes) => void
+    newMessageText: string
 }
 
 export function Dialogs(props: DialogsProps) {
@@ -15,8 +18,13 @@ export function Dialogs(props: DialogsProps) {
     let newMessage = React.createRef<HTMLTextAreaElement>();
 
     const sendMessage = () => {
-        let text = newMessage.current?.value;
-        alert(text);
+        props.dispatch(sendMessageAC());
+    }
+
+    const onMessageChange = () => {
+        if(newMessage.current) {
+            props.dispatch(updateNewMessageTextAC(newMessage.current.value));
+        }
     }
 
     return (
@@ -26,13 +34,13 @@ export function Dialogs(props: DialogsProps) {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-            </div>
-            <div>
                 <div>
-                    <textarea ref={newMessage}></textarea>
-                </div>
-                <div>
-                    <button onClick={ sendMessage }>Send</button>
+                    <div>
+                        <textarea ref={newMessage} onChange={ onMessageChange } value={ props.newMessageText }></textarea>
+                    </div>
+                    <div>
+                        <button onClick={ sendMessage }>Send</button>
+                    </div>
                 </div>
             </div>
         </div>

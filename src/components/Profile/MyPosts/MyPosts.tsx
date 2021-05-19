@@ -1,23 +1,29 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import {Post, PostProps} from "./Post/Post";
-import {DialogItemProps} from "../../Dialogs/DialogItem/DialogsItem";
+import {ActionTypes, addPostAC, updateNewPostTextAC} from "../../../redux/state";
 
 type MyPostsProps = {
     posts: Array<PostProps>
+    newPostText: string
+    dispatch: (action: ActionTypes) => void
 }
 
 export function MyPosts(props: MyPostsProps) {
 
-
     const postsElements = props.posts.map(post => <Post id={post.id} name={post.name} ava={post.ava} message={post.message}
                                                   likeCounter={post.likeCounter}/>);
 
-    let newPostElement = React.createRef<HTMLTextAreaElement>();
+    const newPostElement = React.createRef<HTMLTextAreaElement>();
 
     const addPost = () => {
-        let text = newPostElement.current?.value;
-        alert(text);
+        props.dispatch(addPostAC());
+    }
+
+    const onPostChange = () => {
+        if(newPostElement.current) {
+            props.dispatch(updateNewPostTextAC(newPostElement.current.value));
+        }
     }
 
     return (
@@ -26,7 +32,7 @@ export function MyPosts(props: MyPostsProps) {
                 <h2>My posts</h2>
                 <div>
                     <div>
-                        <textarea ref={newPostElement}></textarea>
+                        <textarea onChange={ onPostChange } ref={newPostElement} value={props.newPostText}/>
                     </div>
                     <div>
                         <button onClick={ addPost }>Add post</button>
