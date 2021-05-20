@@ -2,19 +2,22 @@ import {PostProps} from "../components/Profile/MyPosts/Post/Post";
 import {FriendType} from "../components/Navbar/Sidebar/Friend/Friend";
 import {DialogItemProps} from "../components/Dialogs/DialogItem/DialogsItem";
 import {MessageProps} from "../components/Dialogs/Message/Message";
+import profileReducer, {addPostAC, updateNewPostTextAC} from "./profile-reducer";
+import dialogsReducer, {sendMessageAC, updateNewMessageTextAC} from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
 
-type ProfilePageType = {
+export type ProfilePageType = {
     posts: Array<PostProps>
     newPostText: string
 }
 
-type MessagesPageType = {
+export type MessagesPageType = {
     dialogs: Array<DialogItemProps>
     messages: Array<MessageProps>
     newMessageText: string
 }
 
-type SidebarType = {
+export type SidebarType = {
     friends: Array<FriendType>
 }
 
@@ -33,11 +36,6 @@ type StoreType = {
 }
 
 export type ActionTypes = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC> | ReturnType<typeof sendMessageAC> | ReturnType<typeof updateNewMessageTextAC>;
-
-export const addPostAC = () => ({ type: "ADD-POST" } as const);
-export const updateNewPostTextAC = (newText: string) => ({ type: "UPDATE-NEW-POST-TEXT", newText: newText } as const);
-export const sendMessageAC = () => ({ type: "SEND-MESSAGE" } as const);
-export const updateNewMessageTextAC = (newText: string) => ({ type: "UPDATE-NEW-MESSAGE-TEXT", newText: newText } as const);
 
 export let store: StoreType = {
     _state: {
@@ -126,37 +124,10 @@ export let store: StoreType = {
     },
 
     dispatch(action: ActionTypes) {
-        if(action.type === "ADD-POST") {
-            const newPost: PostProps = {
-                id: 5,
-                message: this._state.profilePage.newPostText,
-                likeCounter: 0,
-                name: "Daniok",
-                ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
-            };
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = "";
-            this._callSubscriber(this._state);
-        }
-        else if(action.type === "UPDATE-NEW-POST-TEXT") {
-            this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
-        }
-        else if(action.type === "SEND-MESSAGE") {
-            const newMessage: MessageProps = {
-                id: 5,
-                text: this._state.messagesPage.newMessageText
-            };
-            this._state.messagesPage.messages.push(newMessage);
-            this._state.messagesPage.newMessageText = "";
-            this._callSubscriber(this._state);
-        }
-        else if(action.type === "UPDATE-NEW-MESSAGE-TEXT") {
-            this._state.messagesPage.newMessageText = action.newText;
-            this._callSubscriber(this._state);
-        }
-        else {
-            this._callSubscriber(this._state);
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action);
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+
+        this._callSubscriber(this._state);
     },
 }

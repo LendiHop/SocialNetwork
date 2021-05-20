@@ -3,7 +3,7 @@ import s from './Profile.module.css';
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {PostProps} from "./MyPosts/Post/Post";
-import {ActionTypes} from "../../redux/state";
+import {ActionTypes} from "../../redux/store";
 
 export type ProfileProps = {
     posts: Array<PostProps>
