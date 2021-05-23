@@ -38,12 +38,18 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
                 name: "Daniok",
                 ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
             };
-            state.posts.push(newPost);
-            state.newPostText = "";
-            return state;
+            return  {
+                ...state,
+                posts: [...state.posts, newPost],
+                newPostText: "",
+            };
+
         case "UPDATE-NEW-POST-TEXT":
-            state.newPostText = action.newText;
-            return state;
+            return {
+                ...state,
+                newPostText: action.newText,
+            };
+
         default:
             return state;
     }
