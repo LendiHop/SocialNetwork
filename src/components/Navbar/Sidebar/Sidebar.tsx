@@ -7,7 +7,7 @@ export type SidebarProps = {
 }
 
 export function Sidebar(props: SidebarProps) {
-    const sidebarElements = props.friends.map(el => <Friend name={el.name} id={el.id} ava={el.ava}/>);
+    const sidebarElements = props.friends.map(el => <Friend name={el.name} key={el.id} id={el.id} ava={el.ava}/>);
 
     return (
         <nav className={s.nav}>

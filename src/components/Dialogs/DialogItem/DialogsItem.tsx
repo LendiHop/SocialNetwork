@@ -11,7 +11,7 @@ export type DialogItemProps = {
 export function DialogItem(props: DialogItemProps) {
     return (
         <div className={s.dialog + ' ' + s.active}>
-            <NavLink to={"/dialogs/" + props.id}><img src={props.ava}/>{props.name}</NavLink>
+            <NavLink to={"/dialogs/" + props.id}><img alt={"ava"} src={props.ava}/>{props.name}</NavLink>
         </div>
     );
 }

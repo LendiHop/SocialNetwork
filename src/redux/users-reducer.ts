@@ -1,12 +1,21 @@
 import {ActionTypes, UsersType, UserType} from "./store";
 
+const FOLLOW = "FOLLOW";
+const UNFOLLOW = "UNFOLLOW";
+const SET_USERS = "SET-USERS";
+const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
+
 let initialState = {
-    users: []
+    users: [],
+    totalUsersCount: 0,
+    pageSize: 5,
+    currentPage: 1
 };
 
 const usersReducer = (state: UsersType = initialState, action: ActionTypes) => {
     switch (action.type) {
-        case "FOLLOW":
+        case FOLLOW:
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -16,7 +25,7 @@ const usersReducer = (state: UsersType = initialState, action: ActionTypes) => {
                     return u;
                 }),
             };
-        case "UNFOLLOW":
+        case UNFOLLOW:
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -26,17 +35,30 @@ const usersReducer = (state: UsersType = initialState, action: ActionTypes) => {
                     return u;
                 }),
             };
-        case "SET-USERS":
-            return { ...state, users: [...state.users, ...action.users] };
+        case SET_USERS:
+            return {
+                ...state,
+                users: action.users
+            };
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.currentPage
+            };
+        case SET_TOTAL_USERS_COUNT:
+            return {
+                ...state,
+                totalUsersCount: action.totalCount
+            };
         default:
             return state;
     }
-
-    return state;
 }
 
-export const followAC = (userId: number) => ({ type: "FOLLOW", userId } as const);
-export const unfollowAC = (userId: number) => ({ type: "UNFOLLOW", userId } as const);
-export const setUsersAC = (users: Array<UserType>) => ({ type: "SET-USERS", users } as const);
+export const followAC = (userId: number) => ({ type: FOLLOW, userId } as const);
+export const unfollowAC = (userId: number) => ({ type: UNFOLLOW, userId } as const);
+export const setUsersAC = (users: Array<UserType>) => ({ type: SET_USERS, users } as const);
+export const setCurrentPageAC = (n: number) => ({ type: SET_CURRENT_PAGE, currentPage: n } as const);
+export const setTotalUsersCountAC = (n: number) => ({ type: SET_TOTAL_USERS_COUNT, totalCount: n } as const);
 
 export default usersReducer;

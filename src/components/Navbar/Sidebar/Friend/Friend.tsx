@@ -9,6 +9,6 @@ export type FriendType = {
 
 export function Friend(props: FriendType) {
     return (
-        <div className={s.friend}><img src={props.ava}/>{props.name}</div>
+        <div className={s.friend}><img alt={"ava"} src={props.ava}/>{props.name}</div>
     );
 }

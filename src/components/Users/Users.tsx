@@ -1,59 +1,40 @@
-import React from 'react';
-import s from './Users.module.css';
+import React from "react";
 import {UserType} from "../../redux/store";
+import s from "./Users.module.css";
+import userPhoto from "../../assets/images/user.png";
 
 type UsersPropsType = {
     users: Array<UserType>
     follow: (userId: number) => void
     unfollow: (userId: number) => void
-    setUsers: (users: Array<UserType>) => void
+    onPageChanged: (n: number) => void
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
 }
 
-export function Users(props: UsersPropsType) {
-    if(props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1,
-                name: "Ashton",
-                ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
-                status: "qwerty",
-                location: {city: "Kiev", country: "Ukraine"},
-                followed: true,
-            },
-            {
-                id: 2,
-                name: "Metthew",
-                ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
-                status: "qweaefaefvberty",
-                location: {city: "Minsk", country: "Belarus"},
-                followed: false,
-            },
-            {
-                id: 3,
-                name: "Tobi",
-                ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
-                status: "qwezdgnvyorty",
-                location: {city: "Warsaw", country: "Poland"},
-                followed: false,
-            },
-            {
-                id: 4,
-                name: "Moba",
-                ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
-                status: "qwezdgnvyordrtbnty",
-                location: {city: "Las Vegas", country: "Usa"},
-                followed: true,
-            },
-        ])
+export const Users = (props: UsersPropsType) => {
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+    const pages: Array<number> = [];
+
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
 
     return (
         <div>
+            <div className={s.pagination}>
+                {pages.map(p => {
+                    return <span key={p} className={props.currentPage === p ? s.selectedPage : ""}
+                                 onClick={() => props.onPageChanged(p)}>{p} </span>
+                })}
+            </div>
             {
-                props.users.map(u => <div key={u.id}>
+                props.users.map((u: UserType) => <div key={u.id}>
                     <span>
                         <div>
-                            <img src={u.ava} className={s.ava}/>
+                            <img alt={"ava"} src={u.photos.small !== null ? u.photos.small : userPhoto}
+                                 className={s.ava}/>
                         </div>
                         <div>
                             {u.followed ? <button onClick={() => {
@@ -69,8 +50,8 @@ export function Users(props: UsersPropsType) {
                             <div>{u.status}</div>
                         </span>
                         <span>
-                            <div>{u.location.country}</div>
-                            <div>{u.location.city}</div>
+                            <div>{'u.location.country'}</div>
+                            <div>{'u.location.city'}</div>
                         </span>
                     </span>
                 </div>)

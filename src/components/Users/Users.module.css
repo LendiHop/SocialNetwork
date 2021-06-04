@@ -2,3 +2,11 @@
     width: 100px;
     height: 130px;
 }
+
+.pagination {
+    cursor: pointer;
+}
+
+.selectedPage {
+    font-weight: bold;
+}

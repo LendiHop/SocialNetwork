@@ -12,7 +12,7 @@ export type PostProps = {
 export function Post(props:PostProps) {
     return (
         <div className={s.item}>
-            <img src={props.ava}/>
+            <img alt={"ava"} src={props.ava}/>
             <div><span>{props.name}</span></div>
             {props.message}
             <div><span>Like({props.likeCounter})</span></div>
