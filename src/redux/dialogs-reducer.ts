@@ -1,6 +1,9 @@
 import {ActionTypes, MessagesPageType} from "./store";
 import {MessageProps} from "../components/Dialogs/Message/Message";
 
+const SEND_MESSAGE =  "SEND-MESSAGE";
+const UPDATE_NEW_MESSAGE_TEXT =  "UPDATE-NEW-MESSAGE-TEXT";
+
 let initialState = {
     dialogs: [
         {
@@ -34,7 +37,7 @@ let initialState = {
 
 const dialogsReducer = (state: MessagesPageType = initialState, action: ActionTypes) => {
     switch (action.type) {
-        case "SEND-MESSAGE":
+        case SEND_MESSAGE:
             const newMessage: MessageProps = {
                 id: 5,
                 text: state.newMessageText
@@ -45,7 +48,7 @@ const dialogsReducer = (state: MessagesPageType = initialState, action: ActionTy
                 newMessageText: "",
             };
 
-        case "UPDATE-NEW-MESSAGE-TEXT":
+        case UPDATE_NEW_MESSAGE_TEXT:
             return {
                 ...state,
                 newMessageText: action.newText,
@@ -56,7 +59,7 @@ const dialogsReducer = (state: MessagesPageType = initialState, action: ActionTy
     }
 }
 
-export const sendMessageAC = () => ({ type: "SEND-MESSAGE" } as const);
-export const updateNewMessageTextAC = (newText: string) => ({ type: "UPDATE-NEW-MESSAGE-TEXT", newText: newText } as const);
+export const sendMessage = () => ({ type: SEND_MESSAGE } as const);
+export const updateNewMessageText = (newText: string) => ({ type: UPDATE_NEW_MESSAGE_TEXT, newText: newText } as const);
 
 export default dialogsReducer;

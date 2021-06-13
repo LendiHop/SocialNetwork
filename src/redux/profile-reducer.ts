@@ -1,5 +1,9 @@
-import {ActionTypes, ProfilePageType} from "./store";
+import {ActionTypes, ProfilePageType, ProfileType} from "./store";
 import {PostProps} from "../components/Profile/MyPosts/Post/Post";
+
+const ADD_POST = "ADD-POST";
+const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+const SET_USER_PROFILE = "SET-USER-PROFILE";
 
 let initialState = {
     posts: [
@@ -26,11 +30,26 @@ let initialState = {
         },
     ],
     newPostText: "",
+    profile: {
+        aboutMe: "About me",
+        contacts: {
+            facebook: "facebook.com",
+            twitter: "twitter.com/@sdf"
+        },
+        lookingForAJob: true,
+        lookingForAJobDescription: "something",
+        fullName: "Daniok Teth",
+        userId: 2,
+        photos: {
+            small: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
+            large: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg",
+        },
+    }
 };
 
 const profileReducer = (state: ProfilePageType = initialState, action: ActionTypes) => {
     switch (action.type) {
-        case "ADD-POST":
+        case ADD_POST:
             const newPost: PostProps = {
                 id: 5,
                 message: state.newPostText,
@@ -44,10 +63,15 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
                 newPostText: "",
             };
 
-        case "UPDATE-NEW-POST-TEXT":
+        case UPDATE_NEW_POST_TEXT:
             return {
                 ...state,
                 newPostText: action.newText,
+            };
+        case SET_USER_PROFILE:
+            return {
+                ...state,
+                profile: action.profile,
             };
 
         default:
@@ -55,7 +79,8 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
     }
 }
 
-export const addPostAC = () => ({ type: "ADD-POST" } as const);
-export const updateNewPostTextAC = (newText: string) => ({ type: "UPDATE-NEW-POST-TEXT", newText: newText } as const);
+export const addPost = () => ({ type: ADD_POST } as const);
+export const updateNewPostText = (newText: string) => ({ type: UPDATE_NEW_POST_TEXT, newText: newText } as const);
+export const setUserProfile = (p: ProfileType) => ({ type: SET_USER_PROFILE, profile: p } as const);
 
 export default profileReducer;

@@ -1,11 +1,11 @@
-import {ActionTypes, RootStateType, UserType} from "../../redux/store";
+import {RootStateType, UserType} from "../../redux/store";
 import {
-    followAC,
-    setCurrentPageAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    toggleIsFetchingAC,
-    unfollowAC
+    follow,
+    setCurrentPage,
+    setTotalUsersCount,
+    setUsers,
+    toggleIsFetching,
+    unfollow
 } from "../../redux/users-reducer";
 import React from "react";
 import axios from "axios";
@@ -63,7 +63,7 @@ class UsersAPIContainer extends React.Component<UsersPropsType> {
             />
         </>
     }
-};
+}
 
 let mapStateToProps = (state: RootStateType) => {
     return {
@@ -75,27 +75,11 @@ let mapStateToProps = (state: RootStateType) => {
     }
 }
 
-let mapDispatchToProps = (dispatch: (a: ActionTypes) => void) => {
-    return {
-        follow: (userId: number) => {
-            dispatch(followAC(userId));
-        },
-        unfollow: (userId: number) => {
-            dispatch(unfollowAC(userId));
-        },
-        setUsers: (users: Array<UserType>) => {
-            dispatch(setUsersAC(users));
-        },
-        setCurrentPage: (n: number) => {
-            dispatch(setCurrentPageAC(n));
-        },
-        setTotalUsersCount: (n: number) => {
-            dispatch(setTotalUsersCountAC(n));
-        },
-        toggleIsFetching: (b: boolean) => {
-            dispatch(toggleIsFetchingAC(b));
-        },
-    }
-}
-
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIContainer);
+export const UsersContainer = connect(mapStateToProps, {
+    follow,
+    unfollow,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    toggleIsFetching,
+})(UsersAPIContainer);

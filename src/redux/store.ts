@@ -2,20 +2,21 @@ import {PostProps} from "../components/Profile/MyPosts/Post/Post";
 import {FriendType} from "../components/Navbar/Sidebar/Friend/Friend";
 import {DialogItemProps} from "../components/Dialogs/DialogItem/DialogsItem";
 import {MessageProps} from "../components/Dialogs/Message/Message";
-import {addPostAC, updateNewPostTextAC} from "./profile-reducer";
-import {sendMessageAC, updateNewMessageTextAC} from "./dialogs-reducer";
+import {addPost, setUserProfile, updateNewPostText} from "./profile-reducer";
+import {sendMessage, updateNewMessageText} from "./dialogs-reducer";
 import {
-    followAC,
-    setCurrentPageAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    toggleIsFetchingAC,
-    unfollowAC
+    follow,
+    setCurrentPage,
+    setTotalUsersCount,
+    setUsers,
+    toggleIsFetching,
+    unfollow
 } from "./users-reducer";
 
 export type ProfilePageType = {
     posts: Array<PostProps>
     newPostText: string
+    profile: ProfileType
 }
 
 export type MessagesPageType = {
@@ -45,6 +46,27 @@ export type UserType = {
     followed: boolean
 }
 
+export type ProfileType = {
+    aboutMe: string
+    contacts: contactsType
+    photos: PhotosType
+    userId: number
+    fullName: string
+    lookingForAJobDescription: string
+    lookingForAJob: boolean
+}
+
+type contactsType = {
+    facebook?: string
+    website?: string
+    vk?: string
+    twitter?: string
+    instagram?: string
+    youtube?: string
+    github?: string
+    mainLink?: string
+}
+
 type PhotosType = {
     small: string
     large: string
@@ -65,4 +87,4 @@ export type StoreType = {
     dispatch: (action: ActionTypes) => void
 }
 
-export type ActionTypes = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC> | ReturnType<typeof sendMessageAC> | ReturnType<typeof updateNewMessageTextAC> | ReturnType<typeof followAC> | ReturnType<typeof unfollowAC> | ReturnType<typeof setUsersAC> | ReturnType<typeof setCurrentPageAC> | ReturnType<typeof setTotalUsersCountAC> | ReturnType<typeof toggleIsFetchingAC>
+export type ActionTypes = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText> | ReturnType<typeof sendMessage> | ReturnType<typeof updateNewMessageText> | ReturnType<typeof follow> | ReturnType<typeof unfollow> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile>

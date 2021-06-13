@@ -3,9 +3,9 @@ import {ActionTypes, UsersType, UserType} from "./store";
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET-USERS";
-const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
-const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
-const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
+const SET_CURRENT_PAGE = "SET-CURRENT-PAGE";
+const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT";
+const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING";
 
 let initialState = {
     users: [],
@@ -62,11 +62,11 @@ const usersReducer = (state: UsersType = initialState, action: ActionTypes) => {
     }
 }
 
-export const followAC = (userId: number) => ({ type: FOLLOW, userId } as const);
-export const unfollowAC = (userId: number) => ({ type: UNFOLLOW, userId } as const);
-export const setUsersAC = (users: Array<UserType>) => ({ type: SET_USERS, users } as const);
-export const setCurrentPageAC = (n: number) => ({ type: SET_CURRENT_PAGE, currentPage: n } as const);
-export const setTotalUsersCountAC = (n: number) => ({ type: SET_TOTAL_USERS_COUNT, totalCount: n } as const);
-export const toggleIsFetchingAC = (b: boolean) => ({ type: TOGGLE_IS_FETCHING, isFetching: b } as const);
+export const follow = (userId: number) => ({ type: FOLLOW, userId } as const);
+export const unfollow = (userId: number) => ({ type: UNFOLLOW, userId } as const);
+export const setUsers = (users: Array<UserType>) => ({ type: SET_USERS, users } as const);
+export const setCurrentPage = (n: number) => ({ type: SET_CURRENT_PAGE, currentPage: n } as const);
+export const setTotalUsersCount = (n: number) => ({ type: SET_TOTAL_USERS_COUNT, totalCount: n } as const);
+export const toggleIsFetching = (b: boolean) => ({ type: TOGGLE_IS_FETCHING, isFetching: b } as const);
 
 export default usersReducer;

@@ -1,7 +1,17 @@
 import React from 'react';
 import s from './ProfileInfo.module.css';
+import {ProfileType} from "../../../redux/store";
+import {Preloader} from "../../Common/Preloader/Preloader";
 
-export function ProfileInfo() {
+type ProfileInfoPropsType = {
+    profile: ProfileType
+}
+
+export function ProfileInfo(props: ProfileInfoPropsType) {
+    if(!props.profile) {
+        return <Preloader/>
+    }
+
     return (
         <div>
             <div>
@@ -10,6 +20,7 @@ export function ProfileInfo() {
                     alt="mainimg"/>
             </div>
             <div className={s.descriptionBlock}>
+                <img src={props.profile.photos.large} alt="ava"/>
                 ava+description
             </div>
         </div>
