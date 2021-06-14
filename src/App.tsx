@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Header} from "./components/Header/Header";
+import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Navbar} from "./components/Navbar/Navbar";
 import {BrowserRouter, Route} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
@@ -12,7 +12,7 @@ function App() {
     return (
         <BrowserRouter>
             <div className="appWrapper">
-                <Header/>
+                <HeaderContainer/>
                 <Navbar/>
                 <div className="appWrapperContent">
                     <Route path='/dialogs' render={ () => <DialogsContainer/> }/>
