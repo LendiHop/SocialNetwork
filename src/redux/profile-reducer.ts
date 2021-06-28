@@ -1,5 +1,6 @@
 import {ActionTypes, ProfilePageType, ProfileType} from "./store";
 import {PostProps} from "../components/Profile/MyPosts/Post/Post";
+import {profileAPI} from "../api/api";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
@@ -82,5 +83,14 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
 export const addPost = () => ({ type: ADD_POST } as const);
 export const updateNewPostText = (newText: string) => ({ type: UPDATE_NEW_POST_TEXT, newText: newText } as const);
 export const setUserProfile = (p: ProfileType) => ({ type: SET_USER_PROFILE, profile: p } as const);
+
+export const getProfileUserData = (userId: string) => {
+
+    return (dispatch: (action: ActionTypes) => void) => {
+        profileAPI.getProfile(userId).then(data => {
+            dispatch(setUserProfile(data));
+        });
+    };
+};
 
 export default profileReducer;

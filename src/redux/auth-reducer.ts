@@ -1,16 +1,13 @@
-import {ActionTypes, authType, dataType} from "./store";
+import {ActionTypes, authType} from "./store";
+import {authAPI} from "../api/api";
 
 const SET_USER_DATA = "SET_USER_DATA";
-// const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 
 let initialState = {
-    data: {
-        id: -1,
-        email: "",
-        login: "",
-    },
+    id: null,
+    email: null,
+    login: null,
     isAuth: false
-    // isFetching: false,
 };
 
 const authReducer = (state: authType = initialState, action: ActionTypes) => {
@@ -21,17 +18,22 @@ const authReducer = (state: authType = initialState, action: ActionTypes) => {
                 ...action.data,
                 isAuth: true
             };
-        // case TOGGLE_IS_FETCHING:
-        //     return {
-        //         ...state,
-        //         isFetching: action.isFetching
-        //     };
         default:
             return state;
     }
 }
-export const setAuthUserData = (data: dataType) => ({ type: SET_USER_DATA, data } as const);
+export const setAuthUserData = (userId: number, email: string, login: string) => ({ type: SET_USER_DATA, data: {userId, email, login} } as const);
 
-// export const toggleIsFetching = (b: boolean) => ({ type: TOGGLE_IS_FETCHING, isFetching: b } as const);
+export const getAuthUserData = () => {
+
+    return (dispatch: (action: ActionTypes) => void) => {
+        authAPI.me().then(data => {
+            if (data.resultCode === 0) {
+                let {id, login, email} = data.data;
+                dispatch(setAuthUserData(id, email, login));
+            }
+        });
+    };
+};
 
 export default authReducer;
