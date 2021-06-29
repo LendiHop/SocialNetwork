@@ -2,7 +2,7 @@ import {PostProps} from "../components/Profile/MyPosts/Post/Post";
 import {FriendType} from "../components/Navbar/Sidebar/Friend/Friend";
 import {DialogItemProps} from "../components/Dialogs/DialogItem/DialogsItem";
 import {MessageProps} from "../components/Dialogs/Message/Message";
-import {addPost, setUserProfile, updateNewPostText} from "./profile-reducer";
+import {addPost, setStatus, setUserProfile, updateNewPostText} from "./profile-reducer";
 import {sendMessage, updateNewMessageText} from "./dialogs-reducer";
 import {
     followSuccess,
@@ -17,7 +17,8 @@ import {setAuthUserData} from "./auth-reducer";
 export type ProfilePageType = {
     posts: Array<PostProps>
     newPostText: string
-    profile: ProfileType
+    profile: ProfileType | null
+    status: string
 }
 
 export type MessagesPageType = {
@@ -97,4 +98,4 @@ export type StoreType = {
     dispatch: (action: ActionTypes) => void
 }
 
-export type ActionTypes = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText> | ReturnType<typeof sendMessage> | ReturnType<typeof updateNewMessageText> | ReturnType<typeof followSuccess> | ReturnType<typeof unfollowSuccess> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setAuthUserData> | ReturnType<typeof toggleFollowingProgress>
+export type ActionTypes = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText> | ReturnType<typeof sendMessage> | ReturnType<typeof updateNewMessageText> | ReturnType<typeof followSuccess> | ReturnType<typeof unfollowSuccess> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setAuthUserData> | ReturnType<typeof toggleFollowingProgress> | ReturnType<typeof setStatus>

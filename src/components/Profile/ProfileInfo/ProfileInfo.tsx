@@ -2,9 +2,13 @@ import React from 'react';
 import s from './ProfileInfo.module.css';
 import {ProfileType} from "../../../redux/store";
 import {Preloader} from "../../Common/Preloader/Preloader";
+import {ProfileStatus} from "./ProfileStatus";
+
 
 type ProfileInfoPropsType = {
-    profile: ProfileType
+    profile: ProfileType | null
+    status: string
+    updateStatus: (status: string) => void
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {
@@ -17,11 +21,11 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
             <div>
                 <img
                     src="https://p.bigstockphoto.com/GeFvQkBbSLaMdpKXF1Zv_bigstock-Aerial-View-Of-Blue-Lakes-And--227291596.jpg"
-                    alt="mainimg"/>
+                    alt="main img"/>
             </div>
             <div className={s.descriptionBlock}>
                 <img src={props.profile.photos.large} alt="ava"/>
-                ava+description
+                <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
             </div>
         </div>
     );
