@@ -2,8 +2,8 @@ import {PostProps} from "../components/Profile/MyPosts/Post/Post";
 import {FriendType} from "../components/Navbar/Sidebar/Friend/Friend";
 import {DialogItemProps} from "../components/Dialogs/DialogItem/DialogsItem";
 import {MessageProps} from "../components/Dialogs/Message/Message";
-import {addPost, setStatus, setUserProfile, updateNewPostText} from "./profile-reducer";
-import {sendMessage, updateNewMessageText} from "./dialogs-reducer";
+import {onAddPost, setStatus, setUserProfile} from "./profile-reducer";
+import {sendMessage} from "./dialogs-reducer";
 import {
     followSuccess,
     setCurrentPage,
@@ -16,7 +16,6 @@ import {setAuthUserData} from "./auth-reducer";
 
 export type ProfilePageType = {
     posts: Array<PostProps>
-    newPostText: string
     profile: ProfileType | null
     status: string
 }
@@ -24,7 +23,6 @@ export type ProfilePageType = {
 export type MessagesPageType = {
     dialogs: Array<DialogItemProps>
     messages: Array<MessageProps>
-    newMessageText: string
 }
 
 export type SidebarType = {
@@ -98,4 +96,4 @@ export type StoreType = {
     dispatch: (action: ActionTypes) => void
 }
 
-export type ActionTypes = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText> | ReturnType<typeof sendMessage> | ReturnType<typeof updateNewMessageText> | ReturnType<typeof followSuccess> | ReturnType<typeof unfollowSuccess> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setAuthUserData> | ReturnType<typeof toggleFollowingProgress> | ReturnType<typeof setStatus>
+export type ActionTypes = ReturnType<typeof onAddPost> | ReturnType<typeof sendMessage> | ReturnType<typeof followSuccess> | ReturnType<typeof unfollowSuccess> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setAuthUserData> | ReturnType<typeof toggleFollowingProgress> | ReturnType<typeof setStatus>
