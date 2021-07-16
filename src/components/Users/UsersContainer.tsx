@@ -1,6 +1,6 @@
 import {RootStateType, UserType} from "../../redux/store";
 import {
-    follow, getUsers,
+    follow, requestUsers,
     setCurrentPage,
     unfollow
 } from "../../redux/users-reducer";
@@ -9,6 +9,14 @@ import {Users} from "./Users";
 import {connect} from "react-redux";
 import {Preloader} from "../Common/Preloader/Preloader";
 import {compose} from "redux";
+import {
+    getUsers,
+    getPageSize,
+    getTotalUsersCount,
+    getCurrentPage,
+    getIsFetching,
+    getFollowingInProgress
+} from "../../redux/users-selectors";
 
 type UsersContainerPropsType = {
     users: Array<UserType>
@@ -20,16 +28,16 @@ type UsersContainerPropsType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<number>
-    getUsers: (currentPage: number, pageSize: number) => void
+    requestUsers: (currentPage: number, pageSize: number) => void
 }
 
 class UsersAPIContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
+        this.props.requestUsers(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.getUsers(pageNumber, this.props.pageSize);
+        this.props.requestUsers(pageNumber, this.props.pageSize);
     }
 
     render() {
@@ -48,14 +56,25 @@ class UsersAPIContainer extends React.Component<UsersContainerPropsType> {
     }
 }
 
+// const mapStateToProps = (state: RootStateType) => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
+
 const mapStateToProps = (state: RootStateType) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
@@ -64,6 +83,6 @@ export const UsersContainer = compose<React.ComponentType>(
         follow,
         unfollow,
         setCurrentPage,
-        getUsers,
+        requestUsers,
     }),
 )(UsersAPIContainer);
