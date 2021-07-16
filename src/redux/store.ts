@@ -13,6 +13,7 @@ import {
     unfollowSuccess
 } from "./users-reducer";
 import {setAuthUserData} from "./auth-reducer";
+import {initializeSuccess} from "./app-reducer";
 
 export type ProfilePageType = {
     posts: Array<PostProps>
@@ -39,10 +40,14 @@ export type UsersType = {
 }
 
 export type authType = {
-    id: number | null,
+    userId: number | null,
     email: string | null,
     login: string | null,
     isAuth: boolean
+}
+
+export type appType = {
+    initialized: boolean
 }
 
 export type UserType = {
@@ -86,6 +91,7 @@ export type RootStateType = {
     sidebar: SidebarType
     usersPage: UsersType
     auth: authType
+    app: appType
 }
 
 export type StoreType = {
@@ -96,4 +102,4 @@ export type StoreType = {
     dispatch: (action: ActionTypes) => void
 }
 
-export type ActionTypes = ReturnType<typeof onAddPost> | ReturnType<typeof sendMessage> | ReturnType<typeof followSuccess> | ReturnType<typeof unfollowSuccess> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setAuthUserData> | ReturnType<typeof toggleFollowingProgress> | ReturnType<typeof setStatus>
+export type ActionTypes = ReturnType<typeof onAddPost> | ReturnType<typeof sendMessage> | ReturnType<typeof followSuccess> | ReturnType<typeof unfollowSuccess> | ReturnType<typeof setUsers> | ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> | ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setAuthUserData> | ReturnType<typeof toggleFollowingProgress> | ReturnType<typeof setStatus> | ReturnType<typeof initializeSuccess>

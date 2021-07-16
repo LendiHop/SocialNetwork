@@ -1,10 +1,12 @@
-import {ActionTypes, authType} from "./store";
+import {ActionTypes, authType, RootStateType} from "./store";
 import {authAPI} from "../api/api";
+import {FormAction, stopSubmit} from "redux-form";
+import {ThunkAction} from "redux-thunk";
 
 const SET_USER_DATA = "SET_USER_DATA";
 
 let initialState = {
-    id: null,
+    userId: null,
     email: null,
     login: null,
     isAuth: false
@@ -26,7 +28,7 @@ export const setAuthUserData = (userId: number | null, email: string| null, logi
 export const getAuthUserData = () => {
 
     return (dispatch: (action: ActionTypes) => void) => {
-        authAPI.me()
+        return authAPI.me()
             .then(data => {
             if (data.resultCode === 0) {
                 let {id, login, email} = data.data;
@@ -36,13 +38,16 @@ export const getAuthUserData = () => {
     };
 };
 
-export const login = (email: string, password: string, rememberMe: boolean) => {
+export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<void, RootStateType, unknown, ActionTypes | FormAction> => {
 
-    return (dispatch: (action: (dispatch: (action: ActionTypes) => void) => void) => void) => {
+    return (dispatch) => {
         authAPI.login(email, password, rememberMe)
             .then(data => {
             if (data.resultCode === 0) {
                 dispatch(getAuthUserData());
+            } else {
+                let message = data.messages.length  > 0 ? data.messages[0] : "Some error";
+                dispatch(stopSubmit("login", {_error: message}));
             }
         });
     };

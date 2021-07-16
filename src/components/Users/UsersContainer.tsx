@@ -9,7 +9,6 @@ import {Users} from "./Users";
 import {connect} from "react-redux";
 import {Preloader} from "../Common/Preloader/Preloader";
 import {compose} from "redux";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type UsersContainerPropsType = {
     users: Array<UserType>
@@ -61,7 +60,6 @@ const mapStateToProps = (state: RootStateType) => {
 }
 
 export const UsersContainer = compose<React.ComponentType>(
-    withAuthRedirect,
     connect(mapStateToProps, {
         follow,
         unfollow,
