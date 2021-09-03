@@ -1,33 +1,42 @@
-import { getAuthUserData } from "./auth-reducer";
-import {ActionTypes, appType, RootStateType} from "./store";
-import {ThunkAction} from "redux-thunk";
-import {FormAction} from "redux-form";
+import {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import {getAuthUserData} from './auth-reducer'
+import {AppStateType, InferActionsTypes} from '../app/store';
 
-let initialState = {
-    initialized: false
-};
-
-const appReducer = (state: appType = initialState, action: ActionTypes) => {
-    switch (action.type) {
-        case "INITIALIZE_SUCCESS":
-            return {
-                ...state,
-                initialized: true
-            };
-        default:
-            return state;
-    }
+let initializeState = {
+   initialized: false
 }
-export const initializeSuccess = () => ({ type: "INITIALIZE_SUCCESS"} as const);
 
-export const initializeApp = (): ThunkAction<void, RootStateType, unknown, ActionTypes | FormAction> => {
+export type AppInitStateType = typeof initializeState
+type ActionsType = InferActionsTypes<typeof actions>
 
-    return (dispatch) => {
-            Promise.all([dispatch(getAuthUserData()),])
-            .then(() => {
-                dispatch(initializeSuccess());
-            });
-    };
-};
+export const appReducer = (state: AppInitStateType = initializeState, action: ActionsType): AppInitStateType => {
+   switch (action.type) {
+      case 'SN/APP/INITIALIZED_SUCCESS':
+         return {...state, initialized: true}
+      default:
+         return state
+   }
+}
 
-export default appReducer;
+//Action
+export const actions = {
+   initializedSuccess:() => ({
+      type: 'SN/APP/INITIALIZED_SUCCESS',
+   } as const)
+}
+
+//Thunk
+export const initializeApp = (): ThunkType =>
+    (dispatch: ThunkDispatch<AppStateType, unknown, ActionsType>) => {
+       let promise = dispatch(getAuthUserData())
+       Promise.all([promise])
+           .then(() => {
+              dispatch(actions.initializedSuccess)
+           })
+    }
+
+//Type
+type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsType>
+
+
+

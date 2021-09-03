@@ -1,45 +1,31 @@
-import axios from "axios";
+import axios from 'axios'
+import {UsersType} from '../redux/users-reducer'
 
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    headers: {
-        "API-KEY": "a3ac1869-ed49-4cc0-a70c-62d650a86ad8"
-    }
-});
+export const axiosInstance = axios.create({
+   withCredentials: true,
+   baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+   headers: {
+      'API-KEY': '988488bf-4d96-4e4c-8879-9dd6d2da04d6'
+   },
+})
 
-export const usersAPI = {
-    getUsers(currentPage: number = 1, pageSize: number = 10) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data);
-    },
-    follow(id: number) {
-        return instance.post(`follow/${id}`).then(response => response.data);
-    },
-    unfollow(id: number) {
-        return instance.delete(`follow/${id}`).then(response => response.data);
-    },
+export type APIResponseType<D = {}, RC = ResultCodes> = {
+   data: D
+   messages: string[]
+   resultCode: RC
 }
 
-export const profileAPI = {
-    getProfile(userId: string) {
-        return instance.get(`profile/${userId}`).then(response => response.data);
-    },
-    getStatus(userId: string) {
-        return instance.get(`profile/status/${userId}`).then(response => response.data);
-    },
-    updateStatus(status: string) {
-        return instance.put(`profile/status`, {status}).then(response => response.data);
-    },
+export enum ResultCodes {
+   Success = 0,
+   Error = 1,
 }
 
-export const authAPI = {
-    me() {
-        return instance.get(`auth/me`).then(response => response.data);
-    },
-    login(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post(`auth/login`, { email, password, rememberMe }).then(response => response.data);
-    },
-    logout() {
-        return instance.delete(`auth/login`).then(response => response.data);
-    },
+export enum ResultCodeCaptcha {
+   CaptchaIsRequired = 10
+}
+
+export type GetItemsType = {
+   items: UsersType[]
+   totalCount: number
+   error: string | null
 }

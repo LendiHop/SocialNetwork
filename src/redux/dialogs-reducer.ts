@@ -1,52 +1,48 @@
-import {ActionTypes, MessagesPageType} from "./store";
-import {MessageProps} from "../components/Dialogs/Message/Message";
+import {InferActionsTypes} from '../app/store';
 
-let initialState = {
-    dialogs: [
-        {
-            id: 1,
-            name: "Ashton",
-            ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg"
-        },
-        {
-            id: 2,
-            name: "Metthew",
-            ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg"
-        },
-        {
-            id: 3,
-            name: "Daniel",
-            ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg"
-        },
-        {
-            id: 4,
-            name: "Tobi",
-            ava: "https://www.kinonews.ru/insimgs/2019/newsimg/newsimg87089.jpg"
-        },
-    ],
-    messages: [
-        {id: 1, text: "Hi"},
-        {id: 2, text: "Hello"},
-        {id: 3, text: "Yo"},
-    ],
-};
-
-const dialogsReducer = (state: MessagesPageType = initialState, action: ActionTypes) => {
-    switch (action.type) {
-        case "SEND_MESSAGE":
-            const newMessage: MessageProps = {
-                id: 5,
-                text: action.newMessageBody
-            };
-            return {
-                ...state,
-                messages: [...state.messages, newMessage],
-            };
-        default:
-            return state;
-    }
+let initializeState = {
+   dialogs: [
+      {id: 1, name: 'Stanislav Ivanov'},
+      {id: 2, name: 'Egor Ivanov'},
+      {id: 3, name: 'Sergey Ivanov'},
+   ] as Array<DialogType>,
+   messages: [
+      {id: 1, message: 'Detract yet delight written farther'},
+      {id: 2, message: 'An stairs as be lovers'},
+      {id: 3, message: 'Unpleasant in in insensible favourable'},
+   ] as Array<MessageType>,
 }
 
-export const sendMessage = (newMessageBody: string) => ({ type: "SEND_MESSAGE", newMessageBody } as const);
+export type DialogInitStateType = typeof initializeState
+type ActionsTypes = InferActionsTypes<typeof actions>
 
-export default dialogsReducer;
+export const dialogsReducer = (state: DialogInitStateType = initializeState,
+                               action: ActionsTypes): DialogInitStateType => {
+   switch (action.type) {
+      case 'SN/DIALOGS/ADD-NEW-MESSAGE':
+         return {
+            ...state,
+            messages: [...state.messages, {id: 5, message: action.dialogNewMessageText}]
+         }
+      default:
+         return state
+   }
+}
+
+//Action
+export const actions = {
+   addMessage: (dialogNewMessageText: string) =>
+       ({type: 'SN/DIALOGS/ADD-NEW-MESSAGE', dialogNewMessageText} as const)
+}
+
+//Types
+
+export type DialogType = {
+   id: number
+   name: string
+}
+export type MessageType = {
+   id: number
+   message: string
+}
+
